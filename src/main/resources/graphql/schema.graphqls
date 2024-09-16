@@ -1,0 +1,18 @@
+type Query {
+    findPaymentById(paymentId : String) : Payment
+}
+
+type Payment{
+    id: ID,
+    date: String,
+    total_paid: Int
+}
+
+type Mutation {
+    createPayment(inputPayment : InputPayment!) : Payment
+}
+
+input InputPayment{
+    date: String,
+    total_paid: Int
+}
