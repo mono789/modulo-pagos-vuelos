@@ -1,6 +1,7 @@
 package com.udea.modulo_pagos.entities;
 
 import jakarta.persistence.*;
+import org.springframework.graphql.data.method.annotation.SchemaMapping;
 
 import java.time.LocalDate;
 
@@ -12,23 +13,41 @@ public class Transaction {
     private Long id;
     private String status;
     private LocalDate date;
-    private int total_price;
+    private Float total_price;
     private Float additional_charge;
 
     @ManyToOne
-    @JoinColumn(name="id", nullable = false)
+    @JoinColumn(name="booking_id", nullable = false)
     private Booking booking;
 
     @ManyToOne
-    @JoinColumn(name="id", nullable = false)
-    private Payment payment_method;
+    @JoinColumn(name="payment_method_id", nullable = false)
+    private PaymentMethod payment_method;
 
-    public Transaction(Long id, String status, LocalDate date, int total_price, Float additional_charge, Long booking_id, Long payment_method_id) {
+    public Transaction(Long id, String status, LocalDate date, Float total_price, Float additional_charge, Booking booking, PaymentMethod payment_method) {
         this.id = id;
         this.status = status;
         this.date = date;
         this.total_price = total_price;
         this.additional_charge = additional_charge;
+        this.booking = booking;  // Relación con Booking
+        this.payment_method = payment_method;  // Relación con Payment
+    }
+
+    public Booking getBooking() {
+        return booking;
+    }
+
+    public void setBooking(Booking booking) {
+        this.booking = booking;
+    }
+
+    public PaymentMethod getPayment_method() {
+        return payment_method;
+    }
+
+    public void setPayment_method(PaymentMethod payment_method) {
+        this.payment_method = payment_method;
     }
 
     public Transaction (){
@@ -59,11 +78,11 @@ public class Transaction {
         this.date = date;
     }
 
-    public int getTotal_price() {
+    public Float getTotal_price() {
         return total_price;
     }
 
-    public void setTotal_price(int total_price) {
+    public void setTotal_price(Float total_price) {
         this.total_price = total_price;
     }
 

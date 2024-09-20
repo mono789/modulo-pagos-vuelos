@@ -1,18 +1,94 @@
 type Query {
-    findPaymentById(paymentId : String) : Payment
-}
+    findPaymentById(payment_id: ID!) : Payment
+    allPaymentMethods : [PaymentMethod!]!
+    allGatewayPayment: [GatewayPayment!]!
+    findTransactionById( id: ID!) : Transaction
 
-type Payment{
-    id: ID,
-    date: String,
-    total_paid: Int
+    getPaymentMethodsByUserId( userId: ID!) : [PaymentMethodXUser!]!
+
 }
 
 type Mutation {
     createPayment(inputPayment : InputPayment!) : Payment
+    createTransaction(inputTransaction : InputTransaction! ): Transaction
+    updateTransactionStatus( transactionId : ID!, newStatus: String!): Transaction
+    createPaymentMethodXUser( inputPaymentMethodXUser: InputPaymentMethodXUser): PaymentMethodXUser
+
+    deletePaymentMethodXUser ( paymentMethodXUserId: ID!) : String
+}
+
+type Payment{
+    payment_id: ID,
+    date: String,
+    total_paid: Int,
+    transaction: Transaction,
+    gateway: GatewayPayment,
+    paymentStatus: String
+}
+
+type GatewayPayment{
+    id: ID,
+    name: String,
+}
+
+type PaymentMethod{
+    id: ID!,
+    name: String!,
+}
+
+type PaymentMethodXUser{
+    id: ID,
+    card_number: String,
+    card_type: String
+    expiry_date:String,
+    ccv: String
+}
+
+
+type Transaction{
+    id: ID,
+    status: String,
+    date: String,
+    total_price: Float,
+    additional_charge: Float,
+    paymentMethod : PaymentMethod,
+    booking: Booking
+}
+
+type Flight{
+    id: ID
+}
+
+type Booking{
+    id: ID
+    status: String
+}
+
+type User{
+    id: ID
+}
+
+input InputPaymentMethodXUser{
+    card_number: String,
+    card_type: String
+    expiry_date:String,
+    ccv: String
+    user_id: ID!,
+    payment_method_id: ID!
 }
 
 input InputPayment{
     date: String,
     total_paid: Int
+    gateway_payment_id : ID,
+    transaction_id : ID,
+}
+
+input InputTransaction{
+    status : String,
+    date : String,
+    total_price: Int,
+    additional_charge: Float
+    booking_id: ID!,
+    payment_method_id: ID!
 }

@@ -9,7 +9,6 @@ public class PaymentMethod {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String description;
 
     public PaymentMethod() {
     }
@@ -17,7 +16,6 @@ public class PaymentMethod {
     public PaymentMethod(Long id, String name, String description) {
         this.id = id;
         this.name = name;
-        this.description = description;
     }
 
     public Long getId() {
@@ -26,14 +24,6 @@ public class PaymentMethod {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getName() {

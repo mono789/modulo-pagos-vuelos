@@ -4,6 +4,7 @@ import com.udea.modulo_pagos.entities.PaymentMethod;
 import com.udea.modulo_pagos.service.IPaymentMethodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class PaymentMethodController {
     @Autowired
     private IPaymentMethodService paymentMethodService;
 
-    @MutationMapping
+    @QueryMapping
     public List<PaymentMethod> allPaymentMethods() {
         return paymentMethodService.allPaymentMethods();
     }

@@ -5,6 +5,29 @@ import java.util.regex.Pattern;
 
 public class CreditCardValidator {
 
+    public static String getCardType(String cardNumber) {
+        String sanitizedCardNumber = cardNumber.replaceAll("\\s", "");
+
+        if (sanitizedCardNumber.startsWith("4") &&
+                (sanitizedCardNumber.length() == 13 || sanitizedCardNumber.length() == 16)) {
+            return "Visa";
+        } else if (sanitizedCardNumber.matches("^(5[1-5][0-9]{14})$")) {
+            return "MasterCard";
+        } else if (sanitizedCardNumber.startsWith("34") || sanitizedCardNumber.startsWith("37")) {
+            return "American Express";
+        } else if (sanitizedCardNumber.startsWith("6011") ||
+                sanitizedCardNumber.startsWith("65") ||
+                (sanitizedCardNumber.length() == 16 && sanitizedCardNumber.matches("^(622[1-9][0-9]{12}|622[1-9][0-9]{10})$"))) {
+            return "Discover";
+        }
+        return "Unknown";
+    }
+
+    public static boolean isCardTypeValid(String cardNumber, String cardType) {
+        String detectedType = getCardType(cardNumber);
+        return detectedType.equalsIgnoreCase(cardType);
+    }
+
     public static boolean isValidCard(String cardNumber) {
         int totalSum = 0;
         boolean isSecondDigit = false;
@@ -28,7 +51,7 @@ public class CreditCardValidator {
 
     public static boolean isValidCCV(String ccv, String cardType) {
         // Verificar si el CCV tiene 3 o 4 dígitos, dependiendo del tipo de tarjeta
-        if (cardType.equalsIgnoreCase("AMEX")) {
+        if (cardType.equalsIgnoreCase("American Express")) {
             return ccv.matches("\\d{4}"); // American Express tiene un CVV de 4 dígitos
         } else {
             return ccv.matches("\\d{3}"); // Visa, MasterCard y otras usan un CVV de 3 dígitos

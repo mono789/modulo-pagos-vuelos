@@ -8,5 +8,7 @@ public interface IPaymentMethodService {
 
     List<PaymentMethod> allPaymentMethods();
 
+    PaymentMethod getPaymentMethodById(Long id);
+
     boolean checkCard(String cardNumber, String ccv, String cardType, String expiryDate);
 }

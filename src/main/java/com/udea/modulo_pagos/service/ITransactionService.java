@@ -1,9 +1,13 @@
 package com.udea.modulo_pagos.service;
 
 import com.udea.modulo_pagos.entities.Transaction;
+import com.udea.modulo_pagos.graphql.InputTransaction;
 
 public interface ITransactionService {
 
-    void createTransaction(Transaction transaction);
-    void updateTransactionStatus(Long id, String status);
+    Transaction createTransaction(InputTransaction inputTransaction);
+
+    Transaction updateTransactionStatus(Long id, String status);
+
+    Transaction findTransactionById(Long id);
 }
